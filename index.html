@@ -149,7 +149,7 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
   <!-- ============ AI DOST ============ -->
   <div class="view" id="v-ai">
     <div class="card">
-      <div class="row"><h2 style="margin:0">🤖 Baal Dost AI</h2><span class="pill" id="mode">Offline</span></div>
+      <div class="row"><h2 style="margin:0">🤖 Baal Dost AI</h2><span class="pill" id="mode">Smart AI ✨</span></div>
       <p class="note" style="margin:6px 0 0">Baalon, khane aur routine ke baare mein kuch bhi poocho. Ye aap ka aaj ka record bhi dekhta hai.</p>
       <div class="chips" id="chips"></div>
       <div class="chat" id="chat"></div>
@@ -162,8 +162,8 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
 
     <div class="card">
       <details id="aiSet">
-        <summary>⚙️ Smart AI on karo (free, Google Gemini)</summary>
-        <p class="note">Offline mode mein AI sirf pehle se likhe jawab deta hai. Asli AI ke liye free Gemini key lagao:</p>
+        <summary>⚙️ Optional: apni Gemini key (agar free AI busy ho)</summary>
+        <p class="note">Zaroori nahi. AI bina key ke chalta hai. Lekin agar free AI aksar busy mile to apni free Gemini key laga do, phir wo pehle use hogi:</p>
         <ol class="note" style="padding-left:18px">
           <li><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> kholo aur Google account se login karo.</li>
           <li><b>Create API key</b> dabao aur key copy karo.</li>
@@ -263,41 +263,29 @@ document.getElementById('imp').onchange=function(e){var f=e.target.files[0];if(!
   r.onload=function(){try{var d=JSON.parse(r.result);if(!d.days)throw 0;db=d;db.chat=db.chat||[];save();location.reload()}
     catch(x){document.getElementById('bkMsg').textContent='Ye file sahi backup nahi hai.'}};r.readAsText(f)};
 
-/* ---------- AI: offline knowledge base ---------- */
-var KB=[
- {k:['normal','kitne','kitna gir','roz gir','100','50'],a:'Roz 50–100 baal girna bilkul normal hai. Nahane aur kanghi ke waqt zyada nazar aate hain. Fikr tab karo jab guchhe niklein, roz lagataar 100 se zyada girein, ya maang chauri / crown khaali dikhe.'},
- {k:['tail','oil','sarson','coconut','nariyal','maalish','massage'],a:'Tail se baal girna zyada nahi rukta, lekin baal naram rehte hain aur kam toot\'te hain.\n• Hafte mein 2 dafa kaafi hai.\n• Halka garam kar ke ungliyon ke poron se 5–10 min maalish.\n• 1–2 ghante baad dho lo. Puri raat chhorne se dandruff barh sakta hai.\n• Sarson, nariyal, dono theek hain.'},
- {k:['shampoo','dhona','wash','sabun'],a:'Mild shampoo hafte mein 2–3 dafa. Baaqi din sirf paani. Shampoo sirf scalp pe lagao, baalon ki lambai pe nahi ragro. Sabun (bath soap) baalon pe mat lagao, ye rookha karta hai.'},
- {k:['dandruff','khushki','khujli','flakes','safed'],a:'Dandruff ke liye ketoconazole 2% wala shampoo (masalan Nizoral ya pharmacy pe milne wala koi bhi) hafte mein 2 dafa. Lagane ke baad 3–5 minute rakh ke dho lo. 2–3 hafte mein farq aata hai. Tail raat bhar mat chhoro, dandruff barhta hai.'},
- {k:['khana','diet','food','khaon','khau','protein','anda','ande','egg'],a:'Baalon ke liye sab se zaroori protein hai:\n• Roz 2 ande\n• Daal, chicken, machhli, doodh, dahi\n• Iron: palak, khajoor, qeema, chanay\n• Vitamin C (amrood, kinnu) iron ke saath lo\n• Khane ke foran baad chai mat piyo.'},
- {k:['fruit','phal','amrood','kinnu','anar','kela','khajoor','papita','amla'],a:'Ache fruits: amrood, kinnu/orange, anar, khajoor (3–4 roz), kela, papita, amla. Amrood ya kinnu ko iron wali cheez (khajoor, daal) ke saath khao, iron zyada jazb hota hai.'},
- {k:['neend','sleep','sona','soya','raat jag'],a:'7–8 ghante ki neend zaroori hai. Kam neend aur stress se 2–3 mahine baad baal zyada girne lagte hain. Sone se 30 min pehle phone band karo aur roz ek hi time pe so\'o.'},
- {k:['stress','tension','pareshan','anxiety','fikar'],a:'Stress se baal girna (telogen effluvium) common hai aur aksar 3–6 mahine mein khud theek ho jata hai jab stress kam ho. Walk, achi neend aur waqt pe khana madad karte hain. Baalon ko baar baar check karna bhi stress barhata hai.'},
- {k:['garam paani','hot water','thanda','paani se naha'],a:'Garam paani scalp ko rookha karta hai aur baal kamzor hote hain. Normal ya halka neem-garam paani use karo, aakhir mein thanda paani daal sakte ho.'},
- {k:['geele','gila','towel','kanghi','comb','brush'],a:'Geele baal sab se kamzor hote hain. Towel se halka dabao, ragro mat. Kanghi sookhne ke baad karo, choray daant wali. Neeche se shuru karo, upar ki taraf jao.'},
- {k:['minoxidil','dawai','medicine','tablet','finasteride','ilaaj','treatment'],a:'Agar hairline peeche ja rahi hai ya crown patla ho raha hai (mardon mein aksar genetic hota hai), to minoxidil aur finasteride jaise ilaaj hote hain. Lekin ye dermatologist ki salah se shuru karo, khud se nahi. Jitna jaldi shuru ho, utna behtar kaam karta hai.'},
- {k:['doctor','dermatologist','skin specialist','test','blood'],a:'Dermatologist ke paas jao agar:\n• 6–8 hafte routine ke baad bhi farq na pare\n• Guchhe girein ya gol khaali jagah bane\n• Hairline/crown patla ho raha ho\nIron (ferritin), vitamin D, B12 aur thyroid ka blood test karwa lo.'},
- {k:['biotin','vitamin','supplement','zinc','multivitamin'],a:'Supplement tab hi faida dete hain jab kami ho. Pehle blood test (iron, vitamin D, B12) karwa lo. Biotin ki kami bohat kam logon mein hoti hai. Vitamin D ke liye roz 15–20 min dhoop lo. Dawai ki miqdaar doctor se poochho.'},
- {k:['pyaz','onion','aloe','mehndi','henna','chawal','rice water','methi','anday ka mask','egg mask'],a:'Gharelu nuskhe (pyaz ka ras, aloe vera, methi, rice water) se baal naram aur chamakdar ho sakte hain, lekin baal girna rokne ka pakka saboot kam hai. Try kar sakte ho, bas pehle thora sa laga ke check karo ke jalan ya allergy na ho. Asal farq khana, neend aur sahi care se aata hai.'},
- {k:['gel','wax','spray','helmet','topi','cap','tight','pony'],a:'Gel/wax roz lagao to raat ko dho lo. Topi ya helmet se baal nahi girte, bas zyada tight na ho aur saaf ho. Tight pony ya kheench ke baal bandhne se kinare se baal ja sakte hain.'},
- {k:['gym','exercise','workout','whey','creatine'],a:'Exercise baalon ke liye achi hai (khoon ka daura aur stress kam). Whey protein se baal nahi girte. Creatine pe research pakki nahi hai. Agar pehle se hairline ja rahi hai to doctor se baat kar lo.'},
- {k:['kab','kitne din','farq','result','time'],a:'Baal mahine mein lagbhag 1 cm barhte hain, is liye farq 6–8 hafte mein nazar aata hai, aur ghane hone mein 3–6 mahine lagte hain. Roz plan follow karo aur Record tab mein progress dekho.'},
- {k:['ghane','thick','barhana','grow','naye baal','lambe'],a:'Ghane baal ke liye: roz protein + iron, achi neend, stress kam, mild shampoo, aur scalp ki halki maalish. Agar genetic patlapan hai to dermatologist se minoxidil ke baare mein poochho. Sabr rakho, 3–6 mahine lagte hain.'},
- {k:['salam','hello','hi','hey','assalam','kaise ho'],a:'Walaikum assalam! Baalon ke baare mein kuch bhi poocho, ya likho "aaj ka record" to main aap ki aaj ki progress bata dunga.'},
- {k:['record','progress','aaj kya','aaj ka','report','streak','kitna kiya','baqi','baaki','reh gaya'],a:'__REPORT__'}
-];
-function norm(s){return s.toLowerCase().replace(/[?.!,]/g,' ')}
-function report(){var s=stats(),d=day(TODAY),left=[];boxes.forEach(function(b,i){if(!b.checked)left.push('• '+labels[i])});
-  var r='Aaj: '+pct(d)+'% plan poora.\nStreak: '+s.streak+' din 🔥\n7 din ka average: '+s.avg+'%';
-  if(s.fall!=null)r+='\nAverage baal gire: '+s.fall+' roz'+(s.fall>100?' (zyada hai, nazar rakho)':' (normal range)');
-  r+=left.length?'\n\nAbhi baaqi:\n'+left.slice(0,8).join('\n')+(left.length>8?'\n...aur '+(left.length-8):''):'\n\nSab kaam ho gaye, shabash!';
-  return r}
-function offline(q){var n=norm(q),best=null,score=0;
-  KB.forEach(function(e){var s=0;e.k.forEach(function(w){if(n.indexOf(w)>-1)s+=w.length});if(s>score){score=s;best=e}});
-  if(!best)return 'Ye sawal mere offline jawabon mein nahi hai. Neeche "Smart AI on karo" se free Gemini key laga do, phir main kuch bhi samajh ke jawab dunga.\n\nYa ye poocho: tail, shampoo, dandruff, khana, fruits, neend, doctor, ghane baal, aaj ka record.';
-  return best.a==='__REPORT__'?report():best.a}
+function clean(t){return String(t||'').replace(/\*\*(.+?)\*\*/g,'$1').replace(/^#+\s*/gm,'').replace(/^\s*[\*\-]\s/gm,'• ').trim()}
+function msgs(history){var m=[{role:'system',content:SYS+'\n\n'+context()}];
+  history.slice(-12).forEach(function(x){m.push({role:x.r==='me'?'user':'assistant',content:x.t})});return m}
+function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'))},ms)})])}
 
-/* ---------- AI: Gemini ---------- */
+/* ---------- AI engine 1: Pollinations (free, no key, no login) ---------- */
+function pollinations(history){
+  return withTimeout(fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'openai',messages:msgs(history),temperature:0.4,private:true})}),45000)
+  .then(function(r){if(!r.ok)throw new Error('Pollinations '+r.status);return r.json()})
+  .then(function(j){var t=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;if(!t)throw new Error('Pollinations khaali');return clean(t)})}
+
+/* ---------- AI engine 2: Puter.js (free for this site, user signs in to Puter once) ---------- */
+var puterLoading=null;
+function loadPuter(){if(window.puter)return Promise.resolve();if(puterLoading)return puterLoading;
+  puterLoading=new Promise(function(res,rej){var s=document.createElement('script');s.src='https://js.puter.com/v2/';s.onload=function(){res()};s.onerror=function(){puterLoading=null;rej(new Error('Puter load nahi hua'))};document.head.appendChild(s)});
+  return puterLoading}
+function puterAI(history){return loadPuter().then(function(){
+  return withTimeout(window.puter.ai.chat(msgs(history)),90000)}).then(function(r){
+  var t=typeof r==='string'?r:(r&&r.message&&(typeof r.message.content==='string'?r.message.content:(r.message.content||[]).map(function(c){return c.text||''}).join('')))||(r&&r.text)||String(r||'');
+  if(!t||t==='[object Object]')throw new Error('Puter khaali');return clean(t)})}
+
+/* ---------- AI engine 3 (optional): Gemini with user's own key ---------- */
 var SYS='Tum "Baal Dost" ho, ek dosti bhara assistant jo user ko baal girne (hair fall) ko kam karne aur baal ghane karne mein madad karta hai. User Karachi, Pakistan se hai.\n'+
  'Qaide:\n- Hamesha Roman Urdu mein, chhota aur seedha jawab do (zyada se zyada 6-8 lines, zaroorat ho to bullet points).\n'+
  '- Sirf science pe mabni, sahi maloomat do. Agar pakka nahi pata to saaf bolo.\n- Dawai (minoxidil, finasteride, supplements) ki miqdaar mat batao; dermatologist se poochne ko kaho.\n'+
@@ -333,7 +321,7 @@ function gemini(key,history){return pickModel(key).then(function(model){
 var chat=document.getElementById('chat'),q=document.getElementById('q'),busy=false;
 db.chat=db.chat||[];
 function key(){return LS.get('bp-key','')}
-function setMode(){document.getElementById('mode').textContent=key()?'Smart AI ✨':'Offline'}
+function setMode(){document.getElementById('mode').textContent=key()?'Gemini ✨':'Smart AI ✨'}
 function add(r,txt,store){var d=document.createElement('div');d.className='msg '+(r==='me'?'me':'bot');d.textContent=txt;chat.appendChild(d);
   if(store!==false){db.chat.push({r:r,t:txt});if(db.chat.length>60)db.chat=db.chat.slice(-60);save()}scrollChat();return d}
 function scrollChat(){chat.scrollTop=chat.scrollHeight}
@@ -342,10 +330,13 @@ if(db.chat.length)db.chat.forEach(function(m){add(m.r,m.t,false)});else welcome(
 ['Aaj ka record','Tail kab lagaon?','Dandruff ka ilaaj','Ghane baal kaise?','Doctor kab jaun?'].forEach(function(c){
   var b=document.createElement('button');b.type='button';b.textContent=c;b.onclick=function(){ask(c)};document.getElementById('chips').appendChild(b)});
 function ask(text){text=(text||'').trim();if(!text||busy)return;add('me',text);q.value='';
-  var k=key();if(!k){setTimeout(function(){add('bot',offline(text))},250);return}
-  busy=true;var w=add('bot','Soch raha hoon...',false);
-  gemini(k,db.chat).then(function(ans){w.remove();add('bot',ans)}).catch(function(e){w.remove();
-    add('bot','Smart AI se jawab nahi aaya ('+(e.message||'net masla').slice(0,90)+'). Offline jawab:\n\n'+offline(text))}).then(function(){busy=false})}
+  busy=true;var w=add('bot','Soch raha hoon...',false);var hist=db.chat.slice();
+  var k=key();
+  var chain=k?gemini(k,hist).catch(function(){return pollinations(hist)}):pollinations(hist);
+  chain.catch(function(){w.textContent='Soch raha hoon... (dusra AI try kar raha hoon, Puter login maang sakta hai)';return puterAI(hist)})
+  .then(function(ans){w.remove();add('bot',ans)})
+  .catch(function(e){w.remove();add('bot','Abhi AI se jawab nahi aa saka. Internet check karo aur 15–20 second baad dobara bhejo.\n('+String(e&&e.message||'').slice(0,80)+')',false)})
+  .then(function(){busy=false})}
 document.getElementById('form').onsubmit=function(e){e.preventDefault();ask(q.value)};
 document.getElementById('clearChat').onclick=function(){db.chat=[];save();chat.innerHTML='';welcome()};
 
@@ -354,8 +345,8 @@ var keyIn=document.getElementById('key'),keyMsg=document.getElementById('keyMsg'
 if(key())keyIn.value=key();
 document.getElementById('saveKey').onclick=function(){var k=keyIn.value.trim();if(!k){keyMsg.textContent='Pehle key paste karo.';return}
   keyMsg.textContent='Check kar raha hoon...';try{localStorage.removeItem('bp-model')}catch(e){}
-  pickModel(k).then(function(m){LS.set('bp-key',k);setMode();keyMsg.textContent='✅ Smart AI on! Model: '+m}).catch(function(e){keyMsg.textContent='❌ Key kaam nahi kar rahi: '+(e.message||'').slice(0,100)})};
-document.getElementById('delKey').onclick=function(){try{localStorage.removeItem('bp-key');localStorage.removeItem('bp-model')}catch(e){}keyIn.value='';setMode();keyMsg.textContent='Key hata di. Ab offline mode.'};
+  pickModel(k).then(function(m){LS.set('bp-key',k);setMode();keyMsg.textContent='✅ Gemini on! Model: '+m}).catch(function(e){keyMsg.textContent='❌ Key kaam nahi kar rahi: '+(e.message||'').slice(0,100)})};
+document.getElementById('delKey').onclick=function(){try{localStorage.removeItem('bp-key');localStorage.removeItem('bp-model')}catch(e){}keyIn.value='';setMode();keyMsg.textContent='Key hata di. Ab free AI use hoga.'};
 setMode();
 if(/^#(record|ai)$/.test(location.hash))show(location.hash.slice(1));
 })();
